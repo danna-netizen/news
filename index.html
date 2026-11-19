@@ -57,8 +57,7 @@ const TOPICS = [
     x: ["aluminum foil","Nitrogen","Diphenhydramine","Acetaminophen","Bismuth subsalicylate"],
     h: ["A cure for cancer has been invented, made with {x}!","A cancer cure made with {x} was invented {when}","{who} claims to have invented the cure for cancer using {x}","Cure for cancer: the secret was {x}, says {who}","A cure for cancer? {who} says it was invented with {x}","They say a cure for cancer already exists, and it contains {x}","Cancer has a cure, says {who}, all thanks to {x}","Announced in {place}: a cancer cure made with {x}"],
     l: ["{when}, {who} told people in {place} that a cure for cancer had been invented, made with {x}.","In {place}, {who} said {when} that the cure for cancer already exists and contains {x}.","According to {who}, the cure for cancer was invented {when} using {x} as the main ingredient.","A cure for cancer, prepared with {x}, was allegedly invented {when}, according to {who}."],
-    d: ["The details are so absurd that not even the person telling the story remembers them.","The recipe, they say, was written on a napkin that nobody can find.","Nobody could explain how it would work, and that makes sense: it doesn't exist.","It all happened, supposedly, somewhere between a coffee and a nap."],
-    f: ["None of this is true: there is no such cure and this story is made up. If you have health questions, talk to a real professional.","It's a joke: no cure was invented this way. For health topics, always ask a doctor.","For real health information, go to qualified professionals."] },
+    d: ["The details are so absurd that not even the person telling the story remembers them.","The recipe, they say, was written on a napkin that nobody can find.","Nobody could explain how it would work, and that makes sense: it doesn't exist.","It all happened, supposedly, somewhere between a coffee and a nap."]},
   { k: "Space", e: "🌕",
     x: ["giraffes in helmets","ducks in scarves","floating cows","zero-gravity octopuses","rabbits in ties","penguins in space suits"],
     h: ["Animals found on the Moon: {x}","Animals on the Moon: {who} saw {x}","There are animals on the Moon! They are {x}","{x} discovered living on the Moon","The Moon has residents: {x}, according to {who}","Telescope spots {x} on the Moon","Lunar discovery: {x} strolling among the craters"],
@@ -107,7 +106,7 @@ function articlesFor(page) {
     const headT = page === 1 ? topic.h[0] : pick(r, topic.h);   // page 1: the headlines exactly as requested
     const head = tidy(fill(headT, c));
     const front = r() > .65 ? pick(r, FRONT) + " " : "";
-    const body = tidy(front + fill(pick(r, topic.l), c) + " " + fill(pick(r, topic.d), c) + " " + pick(r, topic.f));
+    const body = tidy(front + fill(pick(r, topic.l), c) + " " + fill(pick(r, topic.d), c));
     return { kicker: topic.k, emoji: topic.e, head, body };
   });
 }
