@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>⚠️ KBM NEWS </title>
+<style>
+  :root { --bg:#f6f3ee; --card:#fff; --fg:#1b1a18; --muted:#6a645b; --red:#d3141f; --line:#e3dcd1; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141210; --card:#201d1a; --fg:#f2ede6; --muted:#a29a8e; --red:#ff4a52; --line:#37322c; } }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--fg); font-family: Georgia, "Times New Roman", serif; line-height: 1.5; }
+  .warning { position: sticky; top: 0; z-index: 10; background: var(--red); color: #fff; text-align: center;
+             padding: 18px 12px; font-family: system-ui, "Segoe UI", sans-serif; box-shadow: 0 4px 14px #0005; }
+  .warning strong { display: block; font-size: clamp(1.4rem, 5.5vw, 2.8rem); line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; font-weight: 900; }
+  .warning span { display: block; margin-top: 4px; font-size: clamp(.85rem, 2.4vw, 1.05rem); opacity: .95; }
+  header.mast { text-align: center; padding: 22px 12px 8px; border-bottom: 3px double var(--fg); max-width: 900px; margin: 0 auto; }
+  header.mast h1 { font-size: clamp(1.8rem, 6vw, 3rem); letter-spacing: -.01em; }
+  header.mast p { color: var(--muted); font-style: italic; font-size: .9rem; }
+  main { max-width: 900px; margin: 0 auto; padding: 18px 16px 40px; display: grid; gap: 18px; }
+  article { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 20px 18px; overflow: hidden; }
+  article .stamp { position: absolute; top: 14px; right: -34px; transform: rotate(35deg); background: var(--red); color: #fff;
+                   font: 900 .75rem system-ui, sans-serif; letter-spacing: .08em; padding: 4px 44px; text-transform: uppercase; }
+  article .kicker { font: 700 .75rem system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
+  article h2 { font-size: clamp(1.25rem, 3.6vw, 1.8rem); line-height: 1.2; margin: 4px 40px 8px 0; }
+  article p { font-size: 1.05rem; }
+  article .flag { margin-top: 12px; display: inline-block; font: 800 .85rem system-ui, sans-serif; color: var(--red);
+                  border: 2px solid var(--red); border-radius: 6px; padding: 4px 10px; text-transform: uppercase; }
+  .pager { display: flex; justify-content: center; align-items: center; gap: 14px; padding: 8px 16px 30px; font-family: system-ui, sans-serif; }
+  .pager button { font: inherit; font-weight: 600; border: 1px solid var(--line); background: var(--card); color: var(--fg); padding: 10px 18px; border-radius: 10px; cursor: pointer; }
+  .pager button:disabled { opacity: .4; cursor: default; }
+  .pager span { color: var(--muted); font-variant-numeric: tabular-nums; }
+  footer { text-align: center; padding: 0 16px 30px; color: var(--red); font: 800 .9rem system-ui, sans-serif; text-transform: uppercase; }
+</style>
+</head>
+<body>
+<header class="mast">
+  <h1>The Daily</h1>
+  <p>Every story that happened this year here in Mexico</p>
+</header>
+<main id="feed"></main>
+<div class="pager">
+  <button id="prev">‹ Previous</button>
+  <span id="info"></span>
+  <button id="next">Next ›</button>
+</div>
+
+<script>
+
+const PLACES = ["Guadalajara","Mérida","Monterrey","Puebla","Tijuana","Veracruz","Morelia","Querétaro","Mexico City","Chihuahua","Tlaxcala"];
+const WHO = ["Gerardo .M","the president of USA","the president of Mexico","a scientist who wishes to remain anonymous","a Hardvard student","a grandmother with an excellent memory","an astronomer's cat","a student who skipped the homework","a corn vendor","a robot vacuum","a dog wearing glasses"];
+const WHEN = ["this Tuesday","last night","at 3:47 a.m.","during lunch","last Thursday","a few minutes ago","mid-afternoon","right after the soap opera"];
+
+// Only 5 topics. Each one is told in many different ways by rearranging the same ideas.
+const FRONT = ["Notice:", "Notice:", "Notice:", "Notice:"];
+const TOPICS = [
+  { k: "Health", e: "💊",
+    x: ["aluminum foil","Nitrogen","Diphenhydramine","Acetaminophen","Bismuth subsalicylate"],
+    h: ["A cure for cancer has been invented, made with {x}!","A cancer cure made with {x} was invented {when}","{who} claims to have invented the cure for cancer using {x}","Cure for cancer: the secret was {x}, says {who}","A cure for cancer? {who} says it was invented with {x}","They say a cure for cancer already exists, and it contains {x}","Cancer has a cure, says {who}, all thanks to {x}","Announced in {place}: a cancer cure made with {x}"],
+    l: ["{when}, {who} told people in {place} that a cure for cancer had been invented, made with {x}.","In {place}, {who} said {when} that the cure for cancer already exists and contains {x}.","According to {who}, the cure for cancer was invented {when} using {x} as the main ingredient.","A cure for cancer, prepared with {x}, was allegedly invented {when}, according to {who}."],
+    d: ["The details are so absurd that not even the person telling the story remembers them.","The recipe, they say, was written on a napkin that nobody can find.","Nobody could explain how it would work, and that makes sense: it doesn't exist.","It all happened, supposedly, somewhere between a coffee and a nap."],
+    f: ["None of this is true: there is no such cure and this story is made up. If you have health questions, talk to a real professional.","It's a joke: no cure was invented this way. For health topics, always ask a doctor.","For real health information, go to qualified professionals."] },
+  { k: "Space", e: "🌕",
+    x: ["giraffes in helmets","ducks in scarves","floating cows","zero-gravity octopuses","rabbits in ties","penguins in space suits"],
+    h: ["Animals found on the Moon: {x}","Animals on the Moon: {who} saw {x}","There are animals on the Moon! They are {x}","{x} discovered living on the Moon","The Moon has residents: {x}, according to {who}","Telescope spots {x} on the Moon","Lunar discovery: {x} strolling among the craters"],
+    l: ["{who} claimed {when} to have seen {x} on the surface of the Moon.","{when}, {who} said there were animals on the Moon, specifically {x}.","A telescope, according to {who}, allegedly spotted {x} walking on the Moon {when}.","In {place}, {who} said {when} that the Moon now has neighbors: {x}."],
+    d: ["Real astronauts have never seen anything like it.","The photos, curiously, all came out blurry.","The animals, they say, waved a paw and left.","Nobody else could confirm it, not even the Moon."]},
+  { k: "Environment", e: "🌍",
+    x: ["a decree from the clouds","a vote among penguins","a deal with the sun","a letter of apology","a group hug"],
+    h: ["There is no more climate change!","Climate change is over, announces {who}","Climate change officially ends {when}","Climate change is over thanks to {x}","{who} declares that climate change no longer exists","Climate change disappeared because of {x}","The end of climate change: the reason was {x}"],
+    l: ["{who} declared {when} in {place} that climate change no longer exists, thanks to {x}.","{when}, in {place}, it was announced that climate change is gone. The reason, according to {who}, was {x}.","According to {who}, climate change ended {when} after {x}.","Climate change, {who} claimed in {place}, ended because of {x}."],
+    d: ["Reportedly, everyone was just tired of talking about it.","The announcement was met with applause that nobody heard.","No data was presented, only a lot of confidence.","The thermometers, for their part, had no comment."]},
+  { k: "Alert", e: "🦠",
+    x: ["sneezing in rhyme","dancing without music","talking to ducks","asking for more tortillas","feeling very dramatic","applauding traffic lights"],
+    h: ["Covid-20 discovered, alert issued: its symptom is {x}","Covid-20 alert: the first symptom is {x}","Alert issued in {place} after covid-20 discovery: the symptom is {x}","{who} discovers covid-20 and warns that its symptom is {x}","Covid-20: alerts are out, and the main symptom is {x}","Covid-20 discovered, everyone on alert over {x}"],
+    l: ["{who} said {when} that a covid-20 exists whose first symptom is {x}.","{when}, in {place}, an alert was issued over the alleged covid-20, which supposedly causes {x}, according to {who}.","According to {who}, covid-20 has been discovered, and you can recognize it when a person starts {x}.","An alleged covid-20 alert circulated in {place} {when}: its symptom would be {x}."],
+    d: ["Real authorities said nothing because it doesn't exist.","The alert, besides, was written in capital letters with very little data.","The statement, they say, was found inside a fortune cookie.","There are no hospitals, no tests and no covid-20."]},
+  { k: "UFOs", e: "🛸",
+    x: ["street tacos","an apology","a little mezcal","tlayudas","directions to the main square","a TV to watch the match"],
+    h: ["Spaceship found in Oaxaca; crew asks for {x}","Spaceship discovered in Oaxaca: the crew was looking for {x}","Spaceship lands in Oaxaca; crew members ask for {x}","A spaceship appeared in Oaxaca, says {who}","{who} found a spaceship in Oaxaca {when}","Mysterious ship in Oaxaca: the crew only wants {x}"],
+    l: ["{when}, {who} said they found a spaceship on the outskirts of Oaxaca.","A spaceship allegedly landed in Oaxaca {when}, according to {who}; the crew asked for {x}.","In Oaxaca, {who} claimed {when} that a spaceship arrived and its crew was looking for {x}.","According to {who}, a spaceship was found in Oaxaca {when}, with a crew that only wanted {x}."],
+    d: ["It turned out to be made up: the crew, naturally, doesn't exist either.","The only evidence is a blurry photo and a lot of imagination.","The neighbors, they say, only heard a strange noise and went on with their day.","Authorities found nothing but dust and a curious dog."]},
+];
+
+// ---------- seeded generator ----------
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const hashSeed = n => { let h = 2166136261 ^ n; h = Math.imul(h ^ h >>> 16, 2246822507); h = Math.imul(h ^ h >>> 13, 3266489909); return (h ^ h >>> 16) >>> 0; };
+const pick = (r, a) => a[Math.floor(r() * a.length)];
+const $ = id => document.getElementById(id);
+const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+
+function fill(t, c) {
+  return t.replaceAll("{x}", c.x).replaceAll("{place}", c.place).replaceAll("{who}", c.who).replaceAll("{when}", c.when);
+}
+// Clean up spacing and capitalize the start of every sentence.
+const tidy = s => cap(s.replace(/\s+/g, " ").replace(/ ,/g, ",").replace(/([.!?]) ([a-z])/g, (m, p, c) => p + " " + c.toUpperCase()).trim());
+
+function shuffled(r, arr) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+// Each page has one story per topic, but told with different words and in a different order.
+function articlesFor(page) {
+  const rp = mulberry32(hashSeed(page * 7919));
+  const order = page === 1 ? TOPICS : shuffled(rp, TOPICS);
+  return order.map((topic, i) => {
+    const r = mulberry32(hashSeed(page * 97 + topic.k.length * 13 + i * 31 + 5));
+    const c = { x: pick(r, topic.x), place: pick(r, PLACES), who: pick(r, WHO), when: pick(r, WHEN) };
+    const headT = page === 1 ? topic.h[0] : pick(r, topic.h);   // page 1: the headlines exactly as requested
+    const head = tidy(fill(headT, c));
+    const front = r() > .65 ? pick(r, FRONT) + " " : "";
+    const body = tidy(front + fill(pick(r, topic.l), c) + " " + fill(pick(r, topic.d), c) + " " + pick(r, topic.f));
+    return { kicker: topic.k, emoji: topic.e, head, body };
+  });
+}
+
+let page = Math.max(1, parseInt(location.hash.replace(/\D/g, ""), 10) || 1);
+
+function draw() {
+  const feed = $("feed"); feed.innerHTML = "";
+  articlesFor(page).forEach(a => {
+    const el = document.createElement("article");
+    const stamp = document.createElement("div"); stamp.className = "stamp"; stamp.textContent = "NEWS";
+    const k = document.createElement("div"); k.className = "kicker"; k.textContent = `${a.emoji} ${a.kicker}`;
+    const h = document.createElement("h2"); h.textContent = a.head;
+    const p = document.createElement("p"); p.textContent = a.body;
+    const f = document.createElement("div"); f.className = "flag"; f.textContent = "Things you need to know";
+    el.append(stamp, k, h, p, f);
+    feed.appendChild(el);
+  });
+  $("info").textContent = `Page ${page} of ${page + 1}`;
+  $("prev").disabled = page === 1;
+  document.title = `⚠️ NEWS · Page ${page}`;
+  window.scrollTo(0, 0);
+}
+function go(n) { page = Math.max(1, n); history.replaceState(null, "", "#" + page); draw(); }
+$("next").onclick = () => go(page + 1);
+$("prev").onclick = () => go(page - 1);
+document.addEventListener("keydown", e => { if (e.key === "ArrowRight") go(page + 1); if (e.key === "ArrowLeft") go(page - 1); });
+addEventListener("hashchange", () => { page = Math.max(1, parseInt(location.hash.replace(/\D/g, ""), 10) || 1); draw(); });
+draw();
+</script>
+</body>
+</html>
