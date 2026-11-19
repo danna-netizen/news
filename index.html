@@ -56,7 +56,7 @@
     <button id="next">Next ›</button>
     <input id="jump" type="number" min="1" placeholder="Go to…" aria-label="Go to page">
   </div>
-  <footer>Use ← and → to turn pages.</footer>
+  <footer>Use ← and → to turn pages. Fictional product made for a reading experiment. Not for sale.</footer>
 </div>
 
 <!-- Hidden section: only reachable through the summary button -->
@@ -93,7 +93,7 @@
 </section>
 
 <script>
-const TOTAL = 1494, LAST_SUMMARY_PAGE = 400, CAUTION_FROM = 430, CAUTION_TO = 495;
+const TOTAL = 2000, LAST_SUMMARY_PAGE = 400;
 const $ = id => document.getElementById(id);
 
 function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -124,45 +124,50 @@ const BENEFITS = [
   { t: "Visible Glow", s: ["Many people notice a healthier-looking radiance in about two weeks.", "The glow comes from the combined effect of hydration, brightness, and smoothness.", "It is a soft, natural radiance, not glitter or shine.", "Friends and colleagues often notice it before the user does.", "A consistent routine is what makes the glow visible and lasting.", "The glow is a cosmetic effect and results vary from person to person.", "Skin that glows looks like skin that is well cared for."] },
   { t: "A Confidence Boost", s: ["Feeling good in your skin shows in how you carry yourself.", "A simple routine that works can become a small daily ritual of self-care.", "Looking in the mirror and liking what you see is a real, everyday benefit.", "Confidence often starts with small, consistent habits.", "Taking two minutes for yourself morning and night makes a real difference.", "Users often say they feel more prepared to face the day.", "Good skin days make good days, and that is the point."] }
 ];
-// pages 430-495: the points users should know about before using the product
-const CAUTION = [
-  "Lumera Glow Serum may cause pimples or breakouts in some people, especially in the first few weeks of use.",
-  "It can also cause irritation, such as redness, stinging, burning, or itching, particularly on sensitive skin.",
-  "Always do a patch test on a small area, such as behind the ear or on the inner forearm, before using it on the full face.",
-  "Wait 24 hours after the patch test to see if any redness, itching, or swelling develops.",
-  "If you notice breakouts, new pimples, or clogged-feeling skin, stop using the product.",
-  "If you experience irritation, redness, or discomfort, rinse the area with water and stop using the serum.",
-  "People with very sensitive, reactive, or acne-prone skin should be especially careful and consider speaking to a dermatologist first.",
-  "Avoid contact with the eyes, and rinse thoroughly with water if the serum gets into them.",
-  "Dryness, peeling, or flaking can also happen, especially if the serum is combined with other strong active products.",
-  "Vitamin C products can sometimes sting when applied to skin that is already irritated or freshly exfoliated.",
-  "Start by using the serum once a day, every other day, and increase slowly if your skin tolerates it.",
-  "Using too much product does not give better results and may increase the chance of irritation.",
-  "If you are pregnant, nursing, or have a skin condition, ask a healthcare professional before using any new skincare product.",
-  "Persistent breakouts or irritation that do not go away after you stop using the serum should be checked by a doctor.",
-  "Results and reactions vary from person to person, so it is wise to pay attention to how your own skin responds.",
-  "Do not apply to broken, sunburned, or very irritated skin."
+// ---- shared with the story page: must stay identical there ----
+const ING = [
+  ["Hyaluronic acid", "holds water in the skin"], ["Vitamin C", "gives a brighter look"], ["Niacinamide", "supports a smoother-looking surface"],
+  ["Ceramides", "help the skin keep its moisture"], ["Panthenol", "leaves skin feeling soft and comfortable"], ["Squalane", "adds a light, silky feel"],
+  ["Glycerin", "draws moisture into the skin"], ["Aloe vera", "gives a fresh, cooling feel"], ["Green tea extract", "adds antioxidant support"],
+  ["Vitamin E", "supports the look of healthy skin"], ["Peptides", "support a firmer-looking appearance"], ["Centella asiatica", "leaves skin feeling calm"],
+  ["Allantoin", "softens the skin's feel"], ["Shea butter", "adds comforting richness"], ["Zinc PCA", "helps skin look balanced"],
+  ["Bisabolol", "adds a gentle, soothing touch"], ["Licorice root", "helps skin look more even"], ["Ferulic acid", "pairs well with other antioxidants"],
+  ["Jojoba oil", "feels very close to the skin's own oils"], ["Rosehip oil", "adds a healthy-looking glow"], ["Urea", "keeps the skin feeling smooth"], ["Collagen", "adds a plump, bouncy look"]
 ];
-const CAUTION_LEAD = ["Please note:", "Important to know:", "Read this carefully:", "Keep in mind:", "Before you continue:", "A necessary reminder:"];
+const FIRST = ["Maria","Daniel","Sofia","Lucas","Emma","Mateo","Olivia","Diego","Ava","Leo","Camila","Noah","Valeria","Ethan","Isabella","Samuel","Lucia","Adrian","Mia","Gabriel","Elena","Tomas","Paula","Oscar","Julia","Marco","Nina","Victor","Clara","Ruben","Alma","Felix","Rosa","Hugo","Irene","Pablo","Laura","Ivan","Carla","Andres"];
+const LAST = ["Garcia","Lopez","Martinez","Hernandez","Smith","Johnson","Brown","Torres","Rivera","Morales","Reyes","Flores","Diaz","Cruz","Ortiz","Silva","Costa","Moreno","Vargas","Castro","Ramos","Mendoza","Rojas","Navarro","Perez","Gomez","Sanchez","Romero","Jimenez","Ruiz","Walker","Young","Allen","King","Wright","Scott","Green","Baker","Adams","Nelson"];
+function combo(n) { const r = mulberry32(n * 104729 + 3); const a = Math.floor(r() * ING.length); let b = Math.floor(r() * (ING.length - 1)); if (b >= a) b++; return [ING[a], ING[b]]; }
+function nameFor(n) { const r = mulberry32(n * 15485863 + 11); return pick(r, FIRST) + " " + pick(r, LAST); }
+// ---------------------------------------------------------------
+
 const POINT_LEAD = ["Point:", "Benefit:", "Worth remembering:", "Here is why it matters:", "In practice:", "In other words:"];
-const PER_BENEFIT = Math.floor((TOTAL - (CAUTION_TO - CAUTION_FROM + 1)) / BENEFITS.length);
+const CATALOG = "../shoe-catalog/index.html";
+const LINKS = ["Check it:", "Verify it here:", "Prove it yourself:"];
+const GAP_FROM = 200, GAP_TO = 800, REV_TO = 1594, DEATH = 1597;
+const BEN_PAGES = [[1, 199], [1595, 1596], [1598, 2000]];
+const BEN_COUNT = BEN_PAGES.reduce((s, [a, b]) => s + b - a + 1, 0);
+const PER_BENEFIT = Math.ceil(BEN_COUNT / BENEFITS.length);
+function benefitIndex(p) { let i = 0; for (const [a, b] of BEN_PAGES) { if (p >= a && p <= b) return i + (p - a) + 1; i += b - a + 1; } return 1; }
 
 function pageData(p) {
   const r = mulberry32(p * 7919 + 13);
-  if (p >= CAUTION_FROM && p <= CAUTION_TO) {
-    const n = p - CAUTION_FROM, facts = [];
-    for (let k = 0; k < 3; k++) {
-      const g = n * 3 + k, round = Math.floor(g / CAUTION.length), pos = g % CAUTION.length;
-      const order = shuffle(mulberry32(round * 101 + 5), CAUTION.map((_, i) => i));
-      facts.push(`${pick(r, CAUTION_LEAD)} ${CAUTION[order[pos]]}`);
-    }
-    return { chap: "Things You Should Know", title: `Page ${p}`, paras: facts };
+  if (p >= GAP_FROM && p <= GAP_TO) {
+    const [a, b] = combo(p);
+    return { chap: "Ingredient Combination", title: `Page ${p}`,
+      paras: [`${a[0]} + ${b[0]}`, `${a[0]} ${a[1]}, and ${b[0]} ${b[1]}. Together they make a very good pair.`],
+      link: { lead: pick(r, LINKS), text: `ingredient catalog/#${p}`, href: `${CATALOG}#${p}` } };
   }
-  const i = p < CAUTION_FROM ? p : p - (CAUTION_TO - CAUTION_FROM + 1);
+  if (p > GAP_TO && p <= REV_TO) {
+    return { chap: "Reviews", title: `Page ${p}`, paras: [`Review by ${nameFor(p)} · ★★★★★`],
+      link: { lead: "More info:", text: `reviews catalog/#${p}`, href: `${CATALOG}#${p}` } };
+  }
+  if (p === DEATH) {
+    return { chap: "Important", title: `Page ${p}`, paras: ["This product causes death in 7% of cases."] };
+  }
+  const i = benefitIndex(p);
   const bi = Math.min(BENEFITS.length - 1, Math.floor((i - 1) / PER_BENEFIT)), b = BENEFITS[bi];
-  const within = ((i - 1) % PER_BENEFIT) + 1;
   const pts = shuffle(r, b.s).slice(0, 3).map(s => `${pick(r, POINT_LEAD)} ${s}`);
-  return { chap: `Benefit ${bi + 1} · ${b.t}`, title: `Page ${p}`, paras: pts, tag: `${b.t}, point ${within}` };
+  return { chap: `Benefit ${bi + 1} · ${b.t}`, title: `Page ${p}`, paras: pts };
 }
 
 let page = Math.min(TOTAL, Math.max(1, parseInt(location.hash.replace(/\D/g, ""), 10) || 1));
@@ -173,6 +178,7 @@ function draw() {
   $("ptitle").textContent = d.title;
   const sheet = $("sheet"); sheet.innerHTML = "";
   d.paras.forEach(t => { const el = document.createElement("p"); el.textContent = t; el.className = "pt"; sheet.appendChild(el); });
+  if (d.link) { const el = document.createElement("p"); el.className = "pt"; el.append(d.link.lead + " "); const a = document.createElement("a"); a.href = d.link.href; a.textContent = d.link.text; el.appendChild(a); sheet.appendChild(el); }
   $("info").textContent = `Page ${page}`;
   $("prev").disabled = page === 1;
   $("next").disabled = page === TOTAL;
