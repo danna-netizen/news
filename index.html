@@ -3,138 +3,304 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>⚠️ KBM NEWS </title>
+<title>The Long Story · 1494 Pages</title>
 <style>
-  :root { --bg:#f6f3ee; --card:#fff; --fg:#1b1a18; --muted:#6a645b; --red:#d3141f; --line:#e3dcd1; }
-  @media (prefers-color-scheme: dark) { :root { --bg:#141210; --card:#201d1a; --fg:#f2ede6; --muted:#a29a8e; --red:#ff4a52; --line:#37322c; } }
+  :root { --bg:#f6f3ee; --card:#fff; --fg:#1b1a18; --muted:#6a645b; --accent:#8a3b12; --line:#e3dcd1; --warn:#fff4d6; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#141210; --card:#201d1a; --fg:#f2ede6; --muted:#a29a8e; --accent:#e8935a; --line:#37322c; --warn:#3a2f12; } }
   * { box-sizing: border-box; margin: 0; }
-  body { background: var(--bg); color: var(--fg); font-family: Georgia, "Times New Roman", serif; line-height: 1.5; }
-  .warning { position: sticky; top: 0; z-index: 10; background: var(--red); color: #fff; text-align: center;
-             padding: 18px 12px; font-family: system-ui, "Segoe UI", sans-serif; box-shadow: 0 4px 14px #0005; }
-  .warning strong { display: block; font-size: clamp(1.4rem, 5.5vw, 2.8rem); line-height: 1.1; letter-spacing: .02em; text-transform: uppercase; font-weight: 900; }
-  .warning span { display: block; margin-top: 4px; font-size: clamp(.85rem, 2.4vw, 1.05rem); opacity: .95; }
-  header.mast { text-align: center; padding: 22px 12px 8px; border-bottom: 3px double var(--fg); max-width: 900px; margin: 0 auto; }
-  header.mast h1 { font-size: clamp(1.8rem, 6vw, 3rem); letter-spacing: -.01em; }
-  header.mast p { color: var(--muted); font-style: italic; font-size: .9rem; }
-  main { max-width: 900px; margin: 0 auto; padding: 18px 16px 40px; display: grid; gap: 18px; }
-  article { position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px 20px 18px; overflow: hidden; }
-  article .stamp { position: absolute; top: 14px; right: -34px; transform: rotate(35deg); background: var(--red); color: #fff;
-                   font: 900 .75rem system-ui, sans-serif; letter-spacing: .08em; padding: 4px 44px; text-transform: uppercase; }
-  article .kicker { font: 700 .75rem system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--red); }
-  article h2 { font-size: clamp(1.25rem, 3.6vw, 1.8rem); line-height: 1.2; margin: 4px 40px 8px 0; }
-  article p { font-size: 1.05rem; }
-  article .flag { margin-top: 12px; display: inline-block; font: 800 .85rem system-ui, sans-serif; color: var(--red);
-                  border: 2px solid var(--red); border-radius: 6px; padding: 4px 10px; text-transform: uppercase; }
-  .pager { display: flex; justify-content: center; align-items: center; gap: 14px; padding: 8px 16px 30px; font-family: system-ui, sans-serif; }
-  .pager button { font: inherit; font-weight: 600; border: 1px solid var(--line); background: var(--card); color: var(--fg); padding: 10px 18px; border-radius: 10px; cursor: pointer; }
-  .pager button:disabled { opacity: .4; cursor: default; }
+  body { background: var(--bg); color: var(--fg); font-family: Georgia, "Times New Roman", serif; line-height: 1.7; }
+  header.mast { text-align: center; padding: 28px 12px 10px; max-width: 760px; margin: 0 auto; border-bottom: 3px double var(--fg); }
+  header.mast h1 { font-size: clamp(1.8rem, 6vw, 2.8rem); }
+  header.mast p { color: var(--muted); font-style: italic; font-size: .95rem; }
+  main { max-width: 760px; margin: 0 auto; padding: 22px 16px 10px; }
+  .chapter { font: 700 .78rem system-ui, sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  h2 { font-size: clamp(1.3rem, 4vw, 1.8rem); margin: 4px 0 14px; }
+  .sheet { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px 22px 14px; }
+  .sheet p { font-size: 1.08rem; margin-bottom: 1em; }
+  .sheet p.fact { border-left: 3px solid var(--accent); padding-left: 12px; }
+  .notice { margin: 16px 0 0; background: var(--warn); border: 2px solid var(--accent); border-radius: 10px; padding: 12px 16px; font: 700 1rem system-ui, sans-serif; text-align: center; }
+  .sumwrap { text-align: center; margin: 18px 0 4px; }
+  .sumbtn { font: 600 .95rem system-ui, sans-serif; background: transparent; color: var(--accent); border: 1px dashed var(--accent); padding: 10px 16px; border-radius: 10px; cursor: pointer; }
+  .sumbtn:hover { background: var(--accent); color: var(--bg); }
+  .pager { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px; padding: 18px 16px 8px; font-family: system-ui, sans-serif; }
+  .pager button, .pager input { font: inherit; font-weight: 600; border: 1px solid var(--line); background: var(--card); color: var(--fg); padding: 10px 16px; border-radius: 10px; }
+  .pager button { cursor: pointer; } .pager button:disabled { opacity: .4; cursor: default; }
+  .pager input { width: 90px; text-align: center; font-weight: 400; }
   .pager span { color: var(--muted); font-variant-numeric: tabular-nums; }
-  footer { text-align: center; padding: 0 16px 30px; color: var(--red); font: 800 .9rem system-ui, sans-serif; text-transform: uppercase; }
+  footer { text-align: center; padding: 6px 16px 34px; color: var(--muted); font: .8rem system-ui, sans-serif; }
+  #summary { max-width: 760px; margin: 0 auto; padding: 22px 16px 40px; }
+  #summary .sheet h2 { margin-top: 0; }
+  #summary .back { margin-top: 10px; }
 </style>
 </head>
 <body>
 <header class="mast">
-  <h1>The Daily</h1>
-  <p>Every story that happened this year here in Mexico</p>
+  <h1>The Long Story</h1>
+  <p>1494 pages. No shortcuts.</p>
 </header>
-<main id="feed"></main>
-<div class="pager">
-  <button id="prev">‹ Previous</button>
-  <span id="info"></span>
-  <button id="next">Next ›</button>
+
+<div id="book">
+  <main>
+    <div class="chapter" id="chap"></div>
+    <h2 id="ptitle"></h2>
+    <div class="sheet" id="sheet"></div>
+    <div class="notice" id="notice" hidden>This is your last chance: the summary button will not be shown again.</div>
+    <div class="sumwrap" id="sumwrap" hidden>
+      <button class="sumbtn" id="sumbtn">If you want a summary of the page, please check here</button>
+    </div>
+  </main>
+  <div class="pager">
+    <button id="prev">‹ Previous</button>
+    <span id="info"></span>
+    <button id="next">Next ›</button>
+    <input id="jump" type="number" min="1" max="1494" placeholder="Go to…" aria-label="Go to page">
+  </div>
+  <footer>Use ← and → to turn pages.</footer>
 </div>
 
+<!-- Hidden section: only reachable through the summary button -->
+<section id="summary" hidden>
+  <div class="sheet">
+    <div class="chapter">Summary</div>
+    <h2>The Story in Brief</h2>
+    <p>On the windy edge of Cape Wren stands a lighthouse, and in the lighthouse lives Mara Quill, a keeper who writes down every ship she has ever seen in a battered brown ledger. For hundreds of pages the story is exactly that: quiet nights, the sweep of the lamp, the slow arithmetic of tides, and a winter in which no ships come at all.</p>
+    <p>Then a stranger washes up at the foot of the rocks. He carries a coded notebook, and Mara slowly realizes that the cipher hidden in the margins of her own ledger matches his. The harbor town below grows suspicious, the lamp refuses to light on the worst night of the year, and the salvage court threatens to take the tower away from her. Up to this point, roughly the first five hundred pages, the summary and the real story walk side by side.</p>
+    <p>After that, the tale turns into something else entirely: the story of Alden Voss, a soft-spoken city clerk who is talked into running for office. He rides a rented campaign bus across the province, survives a disastrous debate, and wins the governor's seat by a margin of eleven votes.</p>
+    <p>Power does not suit him gently. A scandal over a missing pension fund breaks in his second year, his closest adviser resigns on live television, and a long, bitter recount decides whether his career survives. The final pages follow Voss alone in the empty governor's office, deciding whether to cling to the chair or to tell the truth.</p>
+    <p><strong>In one sentence:</strong> a lighthouse keeper's mystery that grows into a political drama about honesty and power. Nothing else of note happens, and there is nothing else worth reading.</p>
+    <button class="sumbtn back" id="sumback">‹ Back to the story</button>
+  </div>
+</section>
+
 <script>
+const TOTAL = 1494, LAST_SUMMARY_PAGE = 400;
+const $ = id => document.getElementById(id);
 
-const PLACES = ["Guadalajara","Mérida","Monterrey","Puebla","Tijuana","Veracruz","Morelia","Querétaro","Mexico City","Chihuahua","Tlaxcala"];
-const WHO = ["Gerardo .M","the president of USA","the president of Mexico","a scientist who wishes to remain anonymous","a Hardvard student","a grandmother with an excellent memory","an astronomer's cat","a student who skipped the homework","a corn vendor","a robot vacuum","a dog wearing glasses"];
-const WHEN = ["this Tuesday","last night","at 3:47 a.m.","during lunch","last Thursday","a few minutes ago","mid-afternoon","right after the soap opera"];
+// ---------- deterministic random ----------
+function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const pick = (r, a) => a[Math.floor(r() * a.length)];
+function shuffle(r, arr) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function threeDistinct(r, arr) { return shuffle(r, arr).slice(0, 3); }
 
-// Only 5 topics. Each one is told in many different ways by rearranging the same ideas.
-const FRONT = ["Notice:", "Notice:", "Notice:", "Notice:"];
-const TOPICS = [
-  { k: "Health", e: "💊",
-    x: ["aluminum foil","Nitrogen","Diphenhydramine","Acetaminophen","Bismuth subsalicylate"],
-    h: ["A cure for cancer has been invented, made with {x}!","A cancer cure made with {x} was invented {when}","{who} claims to have invented the cure for cancer using {x}","Cure for cancer: the secret was {x}, says {who}","A cure for cancer? {who} says it was invented with {x}","They say a cure for cancer already exists, and it contains {x}","Cancer has a cure, says {who}, all thanks to {x}","Announced in {place}: a cancer cure made with {x}"],
-    l: ["{when}, {who} told people in {place} that a cure for cancer had been invented, made with {x}.","In {place}, {who} said {when} that the cure for cancer already exists and contains {x}.","According to {who}, the cure for cancer was invented {when} using {x} as the main ingredient.","A cure for cancer, prepared with {x}, was allegedly invented {when}, according to {who}."],
-    d: ["The details are so absurd that not even the person telling the story remembers them.","The recipe, they say, was written on a napkin that nobody can find.","Nobody could explain how it would work, and that makes sense: it doesn't exist.","It all happened, supposedly, somewhere between a coffee and a nap."]},
-  { k: "Space", e: "🌕",
-    x: ["giraffes in helmets","ducks in scarves","floating cows","zero-gravity octopuses","rabbits in ties","penguins in space suits"],
-    h: ["Animals found on the Moon: {x}","Animals on the Moon: {who} saw {x}","There are animals on the Moon! They are {x}","{x} discovered living on the Moon","The Moon has residents: {x}, according to {who}","Telescope spots {x} on the Moon","Lunar discovery: {x} strolling among the craters"],
-    l: ["{who} claimed {when} to have seen {x} on the surface of the Moon.","{when}, {who} said there were animals on the Moon, specifically {x}.","A telescope, according to {who}, allegedly spotted {x} walking on the Moon {when}.","In {place}, {who} said {when} that the Moon now has neighbors: {x}."],
-    d: ["Real astronauts have never seen anything like it.","The photos, curiously, all came out blurry.","The animals, they say, waved a paw and left.","Nobody else could confirm it, not even the Moon."]},
-  { k: "Environment", e: "🌍",
-    x: ["a decree from the clouds","a vote among penguins","a deal with the sun","a letter of apology","a group hug"],
-    h: ["There is no more climate change!","Climate change is over, announces {who}","Climate change officially ends {when}","Climate change is over thanks to {x}","{who} declares that climate change no longer exists","Climate change disappeared because of {x}","The end of climate change: the reason was {x}"],
-    l: ["{who} declared {when} in {place} that climate change no longer exists, thanks to {x}.","{when}, in {place}, it was announced that climate change is gone. The reason, according to {who}, was {x}.","According to {who}, climate change ended {when} after {x}.","Climate change, {who} claimed in {place}, ended because of {x}."],
-    d: ["Reportedly, everyone was just tired of talking about it.","The announcement was met with applause that nobody heard.","No data was presented, only a lot of confidence.","The thermometers, for their part, had no comment."]},
-  { k: "Alert", e: "🦠",
-    x: ["sneezing in rhyme","dancing without music","talking to ducks","asking for more tortillas","feeling very dramatic","applauding traffic lights"],
-    h: ["Covid-20 discovered, alert issued: its symptom is {x}","Covid-20 alert: the first symptom is {x}","Alert issued in {place} after covid-20 discovery: the symptom is {x}","{who} discovers covid-20 and warns that its symptom is {x}","Covid-20: alerts are out, and the main symptom is {x}","Covid-20 discovered, everyone on alert over {x}"],
-    l: ["{who} said {when} that a covid-20 exists whose first symptom is {x}.","{when}, in {place}, an alert was issued over the alleged covid-20, which supposedly causes {x}, according to {who}.","According to {who}, covid-20 has been discovered, and you can recognize it when a person starts {x}.","An alleged covid-20 alert circulated in {place} {when}: its symptom would be {x}."],
-    d: ["Real authorities said nothing because it doesn't exist.","The alert, besides, was written in capital letters with very little data.","The statement, they say, was found inside a fortune cookie.","There are no hospitals, no tests and no covid-20."]},
-  { k: "UFOs", e: "🛸",
-    x: ["street tacos","an apology","a little mezcal","tlayudas","directions to the main square","a TV to watch the match"],
-    h: ["Spaceship found in Oaxaca; crew asks for {x}","Spaceship discovered in Oaxaca: the crew was looking for {x}","Spaceship lands in Oaxaca; crew members ask for {x}","A spaceship appeared in Oaxaca, says {who}","{who} found a spaceship in Oaxaca {when}","Mysterious ship in Oaxaca: the crew only wants {x}"],
-    l: ["{when}, {who} said they found a spaceship on the outskirts of Oaxaca.","A spaceship allegedly landed in Oaxaca {when}, according to {who}; the crew asked for {x}.","In Oaxaca, {who} claimed {when} that a spaceship arrived and its crew was looking for {x}.","According to {who}, a spaceship was found in Oaxaca {when}, with a crew that only wanted {x}."],
-    d: ["It turned out to be made up: the crew, naturally, doesn't exist either.","The only evidence is a blurry photo and a lot of imagination.","The neighbors, they say, only heard a strange noise and went on with their day.","Authorities found nothing but dust and a curious dog."]},
+// ---------- arc A: the lighthouse (pages 1-500 and 901-1239) ----------
+const OPEN_A = [
+  "The wind off Cape Wren smelled of salt and cold iron.", "Dawn crept over the water like a slow, grey tide.",
+  "By the time the evening bell rang in the harbor town, the lamp room was already warm.", "Fog had settled over the rocks before breakfast.",
+  "A thin rain tapped on the lantern glass all morning.", "The gulls were unusually quiet that day.",
+  "Midnight found Mara on the iron stairs, counting steps she had counted ten thousand times.", "The sea was calm, which Mara never trusted.",
+  "A pale moon hung over the cape, bright enough to read by.", "The kettle sang in the keeper's kitchen while the sky turned violet."
+];
+const A_CHAPTERS = [
+  { t: "The Keeper's Ledger", s: [
+    "Mara Quill opened the brown ledger and wrote the date in her careful, slanting hand.", "Every ship that passed the cape received a line: its name, its flag, and the hour it slipped from sight.",
+    "Her father had kept the first ledger, and his father the one before that, and the shelf behind the stove held all of them.", "She polished the great lens until she could see a small, tired version of herself in it.",
+    "Supplies came by boat on the first of each month, and the boatman always brought news nobody had asked for.", "She had never once left the cape for longer than a day, and she told herself that she preferred it that way.",
+    "The ledger did not judge; it only remembered, and Mara found that a great comfort.", "A single sail appeared on the horizon, and she logged it before it had even decided to be a ship.",
+    "She ate her bread standing at the window, as keepers always had.", "The tower creaked in the wind, as if it were turning the pages with her." ] },
+  { t: "The Winter Without Ships", s: [
+    "The first frost arrived early, and with it the strange emptiness of an unbroken sea.", "No ship passed that week, and the ledger stayed open at the same blank line.",
+    "Mara began to talk aloud to the lamp, just to hear a voice in the tower.", "The boatman did not come on the first of the month, and she rationed the flour with a steady hand.",
+    "Ice grew along the railing in delicate, useless feathers.", "She counted the days instead of the ships, and the sum frightened her more than the weather.",
+    "Down in the town the lights went out one by one, until only the church window glowed.", "A fox crossed the frozen causeway and stared at the tower as though it owed him money.",
+    "She read her father's old entries by candlelight and noticed that he too had written about the empty winter.", "Silence, she decided, was just another kind of weather." ] },
+  { t: "The Stranger from the Tide", s: [
+    "At dawn she found a man lying at the foot of the rocks, soaked and breathing shallowly.", "He gave his name as Tobias Wend and refused to say which ship he had come from.",
+    "In his coat was a small notebook wrapped in oilcloth, its pages crowded with numbers.", "Mara fed him broth and watched his eyes follow every ledger on the shelf.",
+    "He asked, too casually, how long her family had kept the records of the cape.", "By evening he could stand, and by night he was pacing the gallery as if measuring it.",
+    "She locked the ledgers in the trunk and slept with the key beneath her pillow.", "The stranger hummed an old sea song that her father used to hum, and that bothered her more than anything.",
+    "He insisted he was only a surveyor, though his hands were far too gentle for the work.", "In the morning the notebook was gone from the table, and so was the stranger's smile." ] },
+  { t: "The Cipher in the Margins", s: [
+    "Under the lamp, Mara noticed tiny marks in the margins of her father's ledger that she had always taken for blots.", "The marks formed a pattern: a dot, a dash, a dot, repeating every seventh line.",
+    "She compared them to the numbers in Tobias Wend's notebook and the two systems fit like a key in a lock.", "Each ship in the ledger, it seemed, had also been a message.",
+    "She copied the first sequence onto a scrap of paper and the scrap read, simply, 'Do not trust the harbor.'", "Hours passed without her noticing; the lamp turned, the sea breathed, and the ledger gave up its secrets slowly.",
+    "She began to suspect that her family had never been mere record keepers.", "Somebody had been using the lighthouse as a mailbox for decades.",
+    "The deeper she read, the more the margins seemed to read her back.", "By dawn she had decoded three whole pages and wished she had not." ] },
+  { t: "The Harbor Below", s: [
+    "Mara walked down the causeway for the first time in a year, her boots loud on the wet stones.", "The harbor master greeted her warmly, and it was the warmth that made her wary.",
+    "Fishermen stopped mending nets when she passed, and started again as soon as she was gone.", "At the chandler's shop she asked about Tobias Wend and received three different answers in as many minutes.",
+    "The church bell rang at an hour that no bell should ring.", "A child pressed a folded note into her hand and ran before she could thank him.",
+    "The note held the same pattern of dots and dashes that filled her ledger.", "She realized the whole town had been reading the lighthouse for years.",
+    "The innkeeper offered her a room, a meal, and a great deal of advice, all of it urging her to leave the cape.", "She climbed the causeway home with the strange feeling that the sea was holding its breath." ] },
+  { t: "The Lamp That Would Not Light", s: [
+    "On the longest night of the year, the lamp refused to catch.", "She cleaned the wick, trimmed the oil, and tried again, with the same grey nothing.",
+    "Out on the black water, ships were passing blind, and she could hear their horns far below.", "Her hands shook; for the first time in her life the tower felt like a trap and not a home.",
+    "A gust slammed the lantern door, and in the dark something metal rolled across the floor.", "It was a small brass key, one she had never seen before, stamped with a wren.",
+    "She followed the sound of the wind to a hollow stone in the wall, where the key fit.", "Behind the stone lay a hidden shelf, and on the shelf lay a single sealed letter.",
+    "By the light of a match she read the first line, and the match burned her fingers.", "Then, far out at sea, a bell began to answer the tower's silence." ] },
+  { t: "The Salvage Court", s: [
+    "A letter arrived with a heavy wax seal: the cape, it declared, was to be inspected by the Salvage Court.", "Three officials in grey coats climbed the stairs, complaining about every step.",
+    "They asked for the ledgers, and Mara answered that the ledgers were not for sale, only for reading.", "The eldest official smiled and said that everything on the coast was for sale, eventually.",
+    "She presented her family's deed, yellowed and sewn with a ribbon, and the room fell quiet.", "The court adjourned until spring, which in that harbor meant until somebody changed their mind.",
+    "Tobias Wend appeared at her door that night, unrepentant, with an apology and a proposal.", "He wanted the ledgers, and he wanted to protect them; Mara wasn't sure which was worse.",
+    "She decided to trust the ledger over any person who had ever lied to her.", "The wind carried the sound of oars toward the rocks, and she blew out the candle." ] },
+  { t: "The Last Entry", s: [
+    "At last Mara understood what the cipher had been saying all along.", "The wren on the brass key was the mark of the keepers, and the keepers had been guarding something older than the tower.",
+    "She took her father's pen from the shelf and wrote the final entry in the ledger.", "Down in the harbor, the lights came on, one by one, as though the town were waking from a long sleep.",
+    "She lit the lamp with a steady hand, and this time it caught at once.", "A ship she had never seen answered with three long notes from its horn.",
+    "She wrote down its name and its flag, and the hour it slipped from sight.", "The tower seemed to settle around her like an old coat.",
+    "Somewhere beneath the stairs, the ledgers rested at last.", "The story of the lighthouse ends where it began: with a keeper, a lamp, and the sea." ] }
 ];
 
-// ---------- seeded generator ----------
-function mulberry32(a) { return function () { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a);
-  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-const hashSeed = n => { let h = 2166136261 ^ n; h = Math.imul(h ^ h >>> 16, 2246822507); h = Math.imul(h ^ h >>> 13, 3266489909); return (h ^ h >>> 16) >>> 0; };
-const pick = (r, a) => a[Math.floor(r() * a.length)];
-const $ = id => document.getElementById(id);
-const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+// ---------- arc B: the politician (pages 501-595 and 1240-1494) ----------
+const OPEN_B = [
+  "The morning papers had already decided what to think.", "Rain lashed the windows of the party office.", "It was a Tuesday, which in politics means nothing and everything.",
+  "The city hall clock chimed nine, one minute late as always.", "The coffee in the committee room had gone cold hours ago.", "Applause echoed down the corridor long before the door opened.",
+  "The province woke to a grey, restless sky.", "Another day began with another poll.", "The press gathered outside like gulls around a fishing boat.", "Dusk settled over the capital, and the lights of the government quarter came on."
+];
+const B_CHAPTERS = [
+  { t: "The Quiet Candidate", s: [
+    "Alden Voss had spent twenty-two years stamping forms at the municipal records office and never once raised his voice.", "He was asked to run for the council seat by a friend who needed a name on a ballot.",
+    "His first speech lasted four minutes and contained no promises, which the crowd found strangely refreshing.", "He ironed his only good suit the night before every event.",
+    "The party chair called him 'harmless', and Voss took it as a compliment.", "His wife, Irene, kept a tally of every handshake in a small green notebook.",
+    "Nobody expected him to win, so nobody bothered to attack him.", "He answered every letter personally, even the angry ones, and the angry ones began to write back.",
+    "A local reporter described him as 'a man who apologizes to doors.'", "By the end of the month, his name was on a hundred windows." ] },
+  { t: "The Campaign Bus", s: [
+    "The rented bus smelled of old upholstery and fresh posters, and it rattled across the province for six weeks.", "At every village square Voss climbed the steps and asked the same question: what would you fix first?",
+    "His staff argued about slogans until three in the morning; he preferred listening to farmers.", "A school choir sang for him in a gymnasium, slightly out of tune and entirely sincere.",
+    "A rival's ad accused him of being too dull to govern; he hung it in the bus window.", "They ran out of fuel twice and out of money once.",
+    "The polls moved a point, then three, then nine, and the staff stopped arguing about slogans.", "Irene sat in the front seat and corrected the route with her notebook.",
+    "At a petrol station, a stranger told him that he would vote for anyone who admitted when he was wrong.", "The bus finally rolled into the capital under a banner that read, simply, 'Voss: He Listens.'" ] },
+  { t: "The Debate", s: [
+    "The debate hall was cold, bright, and full of people who had already made up their minds.", "His opponent, Governor Marlowe, smiled like a man selling a very expensive umbrella.",
+    "The first question was about the budget, and Voss answered it with a number he had memorized in the shower.", "Marlowe interrupted him eleven times; the audience counted.",
+    "Halfway through, Voss lost his place and said, in front of two million viewers, 'I'm sorry, I forgot what I was saying.'", "The hall laughed, then applauded, and the clip was replayed for a week.",
+    "His advisers wanted him to practise attack lines; he asked for a glass of water.", "Marlowe's final remark was clever, and nobody remembered it afterward.",
+    "On the way out, a janitor shook his hand and said that was the first honest debate he had ever swept up after.", "Backstage, Irene handed him her notebook, and the tally on the last page read 'Enough.'" ] },
+  { t: "The Governor's Seat", s: [
+    "He won by eleven votes, and the count was repeated until everyone was tired of numbers.", "The governor's office had a high ceiling, a heavy desk, and a window that did not open.",
+    "Voss moved his stamp collection onto the shelf where the portraits had been.", "His first decree was to publish the schedule of every meeting, including the boring ones.",
+    "The ministers waited for him to change, and he waited for them to relax.", "Committees multiplied; so did requests for photographs.",
+    "A bridge was repaired, a school was reopened, and nobody gave him credit, which he accepted with a shrug.", "His security detail learned that he liked to walk to work, and complained about it.",
+    "In the evenings he signed documents until the ink ran low.", "For a season, the province felt almost ordinary, and everyone suspected it couldn't last." ] },
+  { t: "The Scandal", s: [
+    "The first rumor was small: a pension fund, a missing audit, a signature that was not quite his.", "By the weekend, the rumor had grown a headline and a hashtag.",
+    "His closest adviser, Cornelius Hale, resigned live on television, citing 'personal reasons' in a voice full of other ones.", "Reporters camped outside the residence, and Irene served them tea out of sheer stubbornness.",
+    "Voss ordered an investigation, and then discovered that the investigators reported to the very people being investigated.", "He read the audit at midnight and found his own initials in three places he had never been.",
+    "Opponents called for his resignation; allies called for his silence.", "He sat through a dozen meetings in which nobody looked him in the eye.",
+    "The party chair, who had once called him harmless, now called him 'a liability'.", "He realized that the dull man had been the only one the system could not predict." ] },
+  { t: "The Long Recount", s: [
+    "The court ordered a recount of the vote that had begun his term, and the province held its breath.", "Teams of clerks sat in a gymnasium sorting ballots into neat, accusing stacks.",
+    "Voss visited them with sandwiches and was asked, politely, to leave.", "Day by day, the gap between the two candidates shrank, grew, and shrank again.",
+    "Marlowe gave interviews about 'the integrity of the process', smiling the umbrella smile.", "In a quiet corner of the count, a clerk found a box of ballots nobody had logged.",
+    "Cornelius Hale called him at two in the morning, spoke for a long time, and hung up before the end.", "Irene packed a suitcase 'just in case,' and then unpacked it, annoyed at herself.",
+    "He wrote two speeches, one for victory and one for the truth, and could not decide which was which.", "In the empty governor's office, Alden Voss placed his stamp on the final page and finally told the truth." ] }
+];
 
-function fill(t, c) {
-  return t.replaceAll("{x}", c.x).replaceAll("{place}", c.place).replaceAll("{who}", c.who).replaceAll("{when}", c.when);
+// ---------- arc C: Narnia (pages 596-900) ----------
+const NARNIA = [
+  "The Chronicles of Narnia is a series of seven fantasy novels by C. S. Lewis, published between 1950 and 1956.",
+  "The first book to be published was The Lion, the Witch and the Wardrobe, in 1950.",
+  "In publication order the books are: The Lion, the Witch and the Wardrobe (1950), Prince Caspian (1951), The Voyage of the Dawn Treader (1952), The Silver Chair (1953), The Horse and His Boy (1954), The Magician's Nephew (1955), and The Last Battle (1956).",
+  "In chronological order, the series begins with The Magician's Nephew, which tells how Narnia was created.",
+  "Pauline Baynes illustrated the original editions, and her drawings are still closely tied to how readers picture Narnia.",
+  "Aslan, a great talking lion, is the creator and true king of Narnia; his name is the Turkish word for 'lion'.",
+  "The four Pevensie children are Peter, Susan, Edmund, and Lucy, and they first appear in The Lion, the Witch and the Wardrobe.",
+  "Lucy is the first to find Narnia, by stepping through a wardrobe in the house of Professor Kirke.",
+  "The White Witch, Jadis, has made it always winter and never Christmas in Narnia.",
+  "Edmund betrays his siblings after the White Witch tempts him with enchanted Turkish delight.",
+  "Aslan gives his life at the Stone Table to save Edmund, and then returns to life, because of a magic older than the Deep Magic.",
+  "Cair Paravel is the great castle by the eastern sea where the kings and queens of Narnia rule.",
+  "The Pevensies are crowned as High King Peter the Magnificent, Queen Susan the Gentle, King Edmund the Just, and Queen Lucy the Valiant.",
+  "In Prince Caspian, the Telmarines have conquered Narnia, and Caspian, the rightful heir, is forced to flee his uncle Miraz.",
+  "In The Voyage of the Dawn Treader, King Caspian sails east to find the seven lost lords of Narnia.",
+  "Eustace Clarence Scrubb, Lucy and Edmund's cousin, is turned into a dragon during the voyage and is changed back by Aslan.",
+  "Reepicheep, the valiant talking mouse, sails to Aslan's Country at the end of the world.",
+  "In The Silver Chair, Eustace and Jill Pole travel with the gloomy Marsh-wiggle Puddleglum to rescue Prince Rilian.",
+  "The Horse and His Boy is set mostly in Calormen and tells of Shasta, the talking horse Bree, Aravis, and the mare Hwin.",
+  "In The Magician's Nephew, Digory Kirke and Polly Plummer witness the creation of Narnia as Aslan sings it into being.",
+  "The lamp-post in the Lantern Waste grows from a piece of iron bar that Jadis once tore from a London lamp-post.",
+  "In The Last Battle, the ape Shift and the donkey Puzzle spark a crisis by dressing Puzzle in a lion's skin and claiming that he is Aslan.",
+  "Tash, the god of Calormen, is a fearsome, vulture-headed being who appears near the end of the series.",
+  "In the final book, Narnia ends, and its true friends enter the deeper Narnia beyond it.",
+  "C. S. Lewis was born in Belfast in 1898 and died on 22 November 1963, the same day President Kennedy was assassinated.",
+  "Lewis was a professor at Oxford and later at Cambridge, where he held a chair in Medieval and Renaissance literature.",
+  "Lewis was close friends with J. R. R. Tolkien, and both belonged to the Oxford literary group known as the Inklings.",
+  "Tolkien reportedly disliked how Lewis mixed so many mythologies, such as fauns, giants, and Father Christmas, in a single world.",
+  "Lewis dedicated The Lion, the Witch and the Wardrobe to his goddaughter, Lucy Barfield.",
+  "The story was partly inspired by children evacuated from London during World War II, who stayed at Lewis's home, the Kilns.",
+  "Lewis said the whole book began with a picture in his head: a faun carrying an umbrella and parcels through a snowy wood.",
+  "Mr. Tumnus, the faun, is the first creature Lucy meets in Narnia, near the lamp-post.",
+  "Mr. and Mrs. Beaver shelter the children and tell them about Aslan and the prophecy of the four thrones.",
+  "The Deep Magic says that a traitor's life belongs to the White Witch, but the Deeper Magic from before the dawn of time says that a willing sacrifice can undo death.",
+  "Narnia can be entered in different ways: a wardrobe, magic rings, a painting, or a railway accident, depending on the book.",
+  "Time flows differently in Narnia: years may pass there while only moments pass in England.",
+  "At Christmas, Father Christmas gives Peter a sword and shield, Susan a bow, arrows, and a horn, and Lucy a dagger and a healing cordial.",
+  "Lucy's cordial is made from the juice of the fire-flower and can heal almost any wound.",
+  "Peter's first great act in Narnia is rescuing Susan from the wolf Maugrim, whom he later slays.",
+  "The Stone Table, where Aslan is sacrificed, later breaks in two and is known as Aslan's How.",
+  "The series has sold over 100 million copies and has been translated into dozens of languages.",
+  "Disney and Walden Media adapted The Lion, the Witch and the Wardrobe into a film in 2005, followed by Prince Caspian in 2008 and The Voyage of the Dawn Treader in 2010.",
+  "Lewis also wrote The Screwtape Letters (1942) and Mere Christianity (1952), books that explore faith in non-fantasy form.",
+  "Susan is described in The Last Battle as 'no longer a friend of Narnia', a line that has long sparked debate among readers.",
+  "The Dawn Treader reaches the Last Sea, where the water becomes sweet and the sun looks larger than it does in our world."
+];
+const N_LEAD = ["Important:", "Remember this:", "Key point:", "Worth knowing:", "Do not skip this:", "A fact that matters:"];
+const N_TITLES = ["The Wardrobe Door", "Notes from Cair Paravel", "What the Lion Taught", "The Lamp-post in the Wood", "Beyond the Eastern Sea", "The Professor's Study", "Under the Stone Table", "Letters from Oxford"];
+
+// ---------- page generation ----------
+const A_END = 500, B1_END = 595, C_END = 900, A2_END = 1239;
+function section(p) {
+  if (p <= A_END) return { arc: "A", i: p };
+  if (p <= B1_END) return { arc: "B", i: p - A_END };
+  if (p <= C_END) return { arc: "C", i: p - B1_END };
+  if (p <= A2_END) return { arc: "A", i: p - (C_END - B1_END) - (B1_END - A_END) };
+  return { arc: "B", i: p - A2_END + (B1_END - A_END) };
 }
-// Clean up spacing and capitalize the start of every sentence.
-const tidy = s => cap(s.replace(/\s+/g, " ").replace(/ ,/g, ",").replace(/([.!?]) ([a-z])/g, (m, p, c) => p + " " + c.toUpperCase()).trim());
+function chapterOf(arr, i, size) { return Math.min(arr.length - 1, Math.floor((i - 1) / size)); }
 
-function shuffled(r, arr) { const a = arr.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-
-// Each page has one story per topic, but told with different words and in a different order.
-function articlesFor(page) {
-  const rp = mulberry32(hashSeed(page * 7919));
-  const order = page === 1 ? TOPICS : shuffled(rp, TOPICS);
-  return order.map((topic, i) => {
-    const r = mulberry32(hashSeed(page * 97 + topic.k.length * 13 + i * 31 + 5));
-    const c = { x: pick(r, topic.x), place: pick(r, PLACES), who: pick(r, WHO), when: pick(r, WHEN) };
-    const headT = page === 1 ? topic.h[0] : pick(r, topic.h);   // page 1: the headlines exactly as requested
-    const head = tidy(fill(headT, c));
-    const front = r() > .65 ? pick(r, FRONT) + " " : "";
-    const body = tidy(front + fill(pick(r, topic.l), c) + " " + fill(pick(r, topic.d), c));
-    return { kicker: topic.k, emoji: topic.e, head, body };
-  });
+function pageData(p) {
+  const r = mulberry32(p * 7919 + 13);
+  const s = section(p);
+  if (s.arc === "A") {
+    const ci = chapterOf(A_CHAPTERS, s.i, 105), ch = A_CHAPTERS[ci];
+    const sents = threeDistinct(r, ch.s);
+    const entry = `Ledger, entry ${s.i}: ${pick(r, ["a quiet night", "wind from the north", "one sail, no flag", "the lamp held steady", "the sea kept its secrets", "no change at the harbor"])}.`;
+    return { chap: `Chapter ${ci + 1} · ${ch.t}`, title: `Page ${p}`, paras: [pick(r, OPEN_A), sents.join(" "), entry], fact: false };
+  }
+  if (s.arc === "B") {
+    const ci = chapterOf(B_CHAPTERS, s.i, 59), ch = B_CHAPTERS[ci];
+    const sents = threeDistinct(r, ch.s);
+    const note = `Poll note ${s.i}: ${pick(r, ["support unchanged", "up one point", "down two points", "undecided voters restless", "turnout expected high", "the press is watching"])}.`;
+    return { chap: `Chapter ${ci + 9} · ${ch.t}`, title: `Page ${p}`, paras: [pick(r, OPEN_B), sents.join(" "), note], fact: false };
+  }
+  // Narnia: a continuous stream of shuffled rounds so facts rotate through all pages
+  const idx = (s.i - 1) * 3, facts = [];
+  for (let k = 0; k < 3; k++) {
+    const g = idx + k, round = Math.floor(g / NARNIA.length), pos = g % NARNIA.length;
+    const order = shuffle(mulberry32(round * 101 + 7), NARNIA.map((_, i) => i));
+    facts.push(NARNIA[order[pos]]);
+  }
+  return { chap: `Chapter 15 · ${N_TITLES[Math.floor((s.i - 1) / 39) % N_TITLES.length]}`, title: `Page ${p}`,
+           paras: facts.map(f => `${pick(r, N_LEAD)} ${f}`), fact: true };
 }
 
-let page = Math.max(1, parseInt(location.hash.replace(/\D/g, ""), 10) || 1);
+// ---------- UI ----------
+let page = Math.min(TOTAL, Math.max(1, parseInt(location.hash.replace(/\D/g, ""), 10) || 1));
 
 function draw() {
-  const feed = $("feed"); feed.innerHTML = "";
-  articlesFor(page).forEach(a => {
-    const el = document.createElement("article");
-    const stamp = document.createElement("div"); stamp.className = "stamp"; stamp.textContent = "NEWS";
-    const k = document.createElement("div"); k.className = "kicker"; k.textContent = `${a.emoji} ${a.kicker}`;
-    const h = document.createElement("h2"); h.textContent = a.head;
-    const p = document.createElement("p"); p.textContent = a.body;
-    const f = document.createElement("div"); f.className = "flag"; f.textContent = "Things you need to know";
-    el.append(stamp, k, h, p, f);
-    feed.appendChild(el);
-  });
-  $("info").textContent = `Page ${page} of ${page + 1}`;
+  const d = pageData(page);
+  $("chap").textContent = d.chap;
+  $("ptitle").textContent = d.title;
+  const sheet = $("sheet"); sheet.innerHTML = "";
+  d.paras.forEach(t => { const el = document.createElement("p"); el.textContent = t; if (d.fact) el.className = "fact"; sheet.appendChild(el); });
+  $("info").textContent = `Page ${page} of ${TOTAL}`;
   $("prev").disabled = page === 1;
-  document.title = `⚠️ NEWS · Page ${page}`;
+  $("next").disabled = page === TOTAL;
+  $("sumwrap").hidden = page > LAST_SUMMARY_PAGE;
+  $("notice").hidden = page !== LAST_SUMMARY_PAGE;
+  document.title = `The Long Story · Page ${page}`;
   window.scrollTo(0, 0);
 }
-function go(n) { page = Math.max(1, n); history.replaceState(null, "", "#" + page); draw(); }
+function go(n) { page = Math.min(TOTAL, Math.max(1, n | 0)); history.replaceState(null, "", "#" + page); draw(); }
+function showSummary(on) { $("summary").hidden = !on; $("book").hidden = on; window.scrollTo(0, 0); }
+
 $("next").onclick = () => go(page + 1);
 $("prev").onclick = () => go(page - 1);
-document.addEventListener("keydown", e => { if (e.key === "ArrowRight") go(page + 1); if (e.key === "ArrowLeft") go(page - 1); });
-addEventListener("hashchange", () => { page = Math.max(1, parseInt(location.hash.replace(/\D/g, ""), 10) || 1); draw(); });
+$("jump").addEventListener("keydown", e => { if (e.key === "Enter") { go(parseInt(e.target.value, 10) || page); e.target.blur(); } e.stopPropagation(); });
+$("sumbtn").onclick = () => { if (page <= LAST_SUMMARY_PAGE) showSummary(true); };
+$("sumback").onclick = () => showSummary(false);
+document.addEventListener("keydown", e => { if ($("summary").hidden) { if (e.key === "ArrowRight") go(page + 1); if (e.key === "ArrowLeft") go(page - 1); } });
+addEventListener("hashchange", () => { page = Math.min(TOTAL, Math.max(1, parseInt(location.hash.replace(/\D/g, ""), 10) || 1)); showSummary(false); draw(); });
 draw();
 </script>
 </body>
